@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhones MX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* ── THEMES ── */
+[data-theme="dark"]{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--bg4:#222;
+  --text:#f0f0f0;--text2:#999;--text3:#555;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --shadow:rgba(0,0,0,0.4);
+  --nav-bg:rgba(10,10,10,0.85);
+  --card-hover-border:rgba(255,255,255,0.18);
+  --input-bg:#1a1a1a;
+}
+[data-theme="light"]{
+  --bg:#f5f3ef;--bg2:#fff;--bg3:#f0ede8;--bg4:#e8e4de;
+  --text:#1a1a1a;--text2:#666;--text3:#aaa;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --shadow:rgba(0,0,0,0.1);
+  --nav-bg:rgba(245,243,239,0.9);
+  --card-hover-border:rgba(0,0,0,0.2);
+  --input-bg:#f0ede8;
+}
+:root{
+  --gold:#c9a84c;--gold2:#e8c96a;--gold3:#8b6914;
+  --pink:#c2185b;--pink2:#880e4f;
+  --radius:14px;--radius2:20px;
+}
+
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+h1,h2,h3,.brand{font-family:'Syne',sans-serif}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;transition:background .3s}
+.brand{font-size:1.4rem;font-weight:800;letter-spacing:-0.5px}
+.brand span{color:var(--gold)}
+.nav-right{display:flex;gap:.75rem;align-items:center}
+.nav-btn{background:none;border:1px solid var(--border2);color:var(--text2);padding:7px 16px;border-radius:50px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:.2s}
+.nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+.admin-btn{border-color:var(--pink2);color:var(--pink)}
+.admin-btn:hover{border-color:var(--pink);background:rgba(194,24,91,0.08)}
+
+/* THEME TOGGLE */
+.theme-toggle{background:var(--bg3);border:1px solid var(--border2);width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:.2s;color:var(--text2)}
+.theme-toggle:hover{border-color:var(--gold);transform:rotate(20deg)}
+
+/* ── HERO ── */
+.hero{padding:5rem 2rem 3rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 70%);pointer-events:none}
+.hero h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;line-height:1.1;letter-spacing:-2px}
+.hero h1 span{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--text2);margin-top:1rem;font-size:1.05rem;max-width:480px;margin-inline:auto}
+
+/* ── FILTERS ── */
+.filters{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;padding:1rem 2rem 2.5rem}
+.filter-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:8px 18px;border-radius:50px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:.2s}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);color:#000;border-color:var(--gold);font-weight:600}
+
+/* ── CATALOG ── */
+.catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;padding:0 2rem 4rem;max-width:1200px;margin:0 auto}
+
+/* ── CARD ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;cursor:pointer}
+.card:hover{transform:translateY(-6px);border-color:var(--card-hover-border);box-shadow:0 12px 40px var(--shadow)}
+
+/* CARD CAROUSEL */
+.card-carousel{position:relative;height:220px;overflow:hidden;background:var(--bg3)}
+.card-carousel-track{display:flex;height:100%;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.card-carousel-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative;flex-shrink:0}
+.card-carousel-slide img{width:100%;height:100%;object-fit:cover}
+.card-carousel-slide .shine{position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.04),transparent);transition:.6s;pointer-events:none}
+.card:hover .card-carousel-slide .shine{left:150%}
+.condition-badge{position:absolute;top:12px;left:12px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:50px;font-family:'DM Sans',sans-serif;backdrop-filter:blur(8px);z-index:2}
+.nuevo{background:rgba(201,168,76,0.18);color:var(--gold2);border:1px solid rgba(201,168,76,0.35)}
+.semi{background:rgba(255,193,7,0.13);color:#ffc107;border:1px solid rgba(255,193,7,0.28)}
+.card-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;z-index:3;transition:.2s;backdrop-filter:blur(4px)}
+.card-nav:hover{background:rgba(0,0,0,0.8)}
+.card-nav.prev{left:8px}.card-nav.next{right:8px}
+.card-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:3}
+.card-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.4);transition:.25s;border:none;padding:0;cursor:pointer}
+.card-dot.active{background:var(--gold);width:14px;border-radius:3px}
+.photo-count{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.6);color:#fff;font-size:11px;padding:3px 8px;border-radius:50px;backdrop-filter:blur(4px);z-index:2}
+
+.card-body{padding:1.25rem}
+.card-model{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:-0.3px}
+.card-details{display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0}
+.tag{font-size:11px;padding:3px 9px;border-radius:50px;background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--border)}
+.price{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ask-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;padding:9px 18px;border-radius:50px;cursor:pointer;font-size:13px;font-weight:700;font-family:'DM Sans',sans-serif;transition:.15s}
+.ask-btn:hover{transform:scale(1.05);filter:brightness(1.1)}
+
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.9);backdrop-filter:blur(10px);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius2);max-width:460px;width:100%;position:relative;animation:slideUp .3s ease;overflow:hidden;max-height:90vh;overflow-y:auto}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+.modal-close{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;z-index:10;backdrop-filter:blur(4px)}
+
+.modal-carousel{position:relative;height:280px;background:var(--bg3);overflow:hidden}
+.modal-carousel-track{display:flex;height:100%;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.modal-carousel-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:6rem;flex-shrink:0}
+.modal-carousel-slide img{width:100%;height:100%;object-fit:cover}
+.modal-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.55);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:3;transition:.2s;backdrop-filter:blur(4px)}
+.modal-nav:hover{background:rgba(0,0,0,0.8)}
+.modal-nav.prev{left:10px}.modal-nav.next{right:10px}
+.modal-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:3}
+.modal-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.4);transition:.25s;border:none;padding:0;cursor:pointer}
+.modal-dot.active{background:var(--gold);width:18px;border-radius:3px}
+.modal-counter{position:absolute;top:12px;left:12px;background:rgba(0,0,0,0.6);color:#fff;font-size:12px;padding:4px 10px;border-radius:50px;backdrop-filter:blur(4px);z-index:3}
+
+.modal-body{padding:1.5rem}
+.modal h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:.3rem}
+.modal-sub{color:var(--text2);font-size:.9rem;margin-bottom:1rem}
+.modal-price{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1.25rem}
+.modal-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.contact-title{font-size:.85rem;color:var(--text2);margin-bottom:.8rem;font-weight:500}
+.contact-btns{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.wa-btn{background:#25d366;color:#000;border:none;padding:14px;border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:.95rem;font-family:'DM Sans',sans-serif;transition:.15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.wa-btn:hover{transform:scale(1.03)}
+.ig-btn{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;border:none;padding:14px;border-radius:var(--radius);cursor:pointer;font-weight:600;font-size:.95rem;font-family:'DM Sans',sans-serif;transition:.15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.ig-btn:hover{transform:scale(1.03)}
+
+.empty{grid-column:1/-1;text-align:center;padding:4rem 1rem;color:var(--text3)}
+
+/* ── ADMIN ── */
+#admin-view{display:none;padding:2rem;max-width:900px;margin:0 auto}
+.admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.admin-header h2{font-size:1.5rem;font-weight:700}
+.back-btn{background:none;border:1px solid var(--border2);color:var(--text2);padding:8px 16px;border-radius:50px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:.2s}
+.back-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+.form-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:1.75rem;margin-bottom:2rem;transition:background .3s}
+.form-card h3{color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-size:11px;font-weight:600;margin-bottom:1.25rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:.4rem}
+.form-group.full{grid-column:1/-1}
+label{font-size:12px;color:var(--text2);font-weight:500;letter-spacing:.3px}
+input[type=text],input[type=number],input[type=password],select{background:var(--input-bg);border:1px solid var(--border2);color:var(--text);padding:10px 14px;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;transition:.2s;width:100%}
+input:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.15)}
+select option{background:var(--bg2)}
+
+/* MEDIA UPLOAD */
+.media-tabs{display:flex;gap:.5rem;margin-bottom:.75rem}
+.media-tab{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:6px 16px;border-radius:50px;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;transition:.2s}
+.media-tab.active{background:rgba(201,168,76,0.12);border-color:var(--gold);color:var(--gold)}
+
+.multi-upload-zone{border:2px dashed var(--border2);border-radius:12px;padding:1.25rem;transition:.25s;cursor:pointer;position:relative;text-align:center}
+.multi-upload-zone:hover{border-color:var(--gold);background:rgba(201,168,76,0.03)}
+.multi-upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-placeholder{pointer-events:none}
+.upload-icon{font-size:1.8rem;margin-bottom:.4rem}
+.upload-text{font-size:13px;color:var(--text2)}
+.upload-sub{font-size:11px;color:var(--text3);margin-top:.2rem}
+
+.img-previews{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.75rem}
+.img-preview-item{position:relative;width:72px;height:72px;border-radius:10px;overflow:hidden;border:1px solid var(--border2);flex-shrink:0}
+.img-preview-item img{width:100%;height:100%;object-fit:cover}
+.img-preview-item .rm{position:absolute;top:3px;right:3px;background:rgba(0,0,0,0.75);color:#fff;border:none;width:18px;height:18px;border-radius:50%;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center}
+.img-preview-item .rm:hover{background:rgba(200,50,50,0.85)}
+.img-preview-item.add-more{background:var(--bg3);border:1px dashed var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;transition:.2s;position:relative}
+.img-preview-item.add-more:hover{border-color:var(--gold)}
+.img-preview-item.add-more input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-count-label{font-size:11px;color:var(--text2);margin-top:.4rem}
+
+.emoji-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem}
+.emoji-opt{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;cursor:pointer;font-size:1.5rem;transition:.2s}
+.emoji-opt:hover,.emoji-opt.selected{border-color:var(--gold);background:rgba(201,168,76,0.1)}
+
+.add-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;padding:12px 28px;border-radius:50px;cursor:pointer;font-weight:700;font-size:.95rem;font-family:'Syne',sans-serif;transition:.15s;width:100%;margin-top:.75rem}
+.add-btn:hover{filter:brightness(1.1);transform:scale(1.02)}
+
+/* PRODUCT LIST */
+.product-list{display:flex;flex-direction:column;gap:.75rem}
+.product-row{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;transition:background .2s}
+.product-row-thumb{width:52px;height:52px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;overflow:hidden;position:relative}
+.product-row-thumb img{width:100%;height:100%;object-fit:cover}
+.product-row-thumb .multi-badge{position:absolute;bottom:2px;right:2px;background:rgba(0,0,0,0.7);color:#fff;font-size:8px;padding:1px 4px;border-radius:4px}
+.product-row-info{flex:1;min-width:0}
+.product-row-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.product-row-meta{font-size:12px;color:var(--text2);margin-top:2px}
+.product-row-price{font-family:'Syne',sans-serif;font-weight:700;color:var(--gold);font-size:1.05rem;flex-shrink:0}
+.row-actions{display:flex;gap:.5rem;flex-shrink:0}
+.edit-btn{background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);color:var(--gold);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.edit-btn:hover{background:rgba(201,168,76,0.22)}
+.del-btn{background:rgba(244,67,54,0.08);border:1px solid rgba(244,67,54,0.18);color:#ef5350;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.del-btn:hover{background:rgba(244,67,54,0.22)}
+
+/* EDIT MODAL */
+.edit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(10px);z-index:400;display:none;align-items:center;justify-content:center;padding:1rem}
+.edit-overlay.open{display:flex}
+.edit-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius2);padding:2rem;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:slideUp .3s ease}
+.edit-modal h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.edit-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.save-btn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;padding:12px 28px;border-radius:50px;cursor:pointer;font-weight:700;font-size:.95rem;font-family:'Syne',sans-serif;transition:.15s;width:100%;margin-top:1rem}
+.save-btn:hover{filter:brightness(1.1)}
+
+/* EXISTING PHOTOS IN EDIT */
+.existing-photos{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.75rem}
+.existing-photo-item{position:relative;width:72px;height:72px;border-radius:10px;overflow:hidden;border:1px solid var(--border2)}
+.existing-photo-item img{width:100%;height:100%;object-fit:cover}
+.existing-photo-item .rm{position:absolute;top:3px;right:3px;background:rgba(0,0,0,0.75);color:#fff;border:none;width:18px;height:18px;border-radius:50%;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center}
+
+/* LOGIN */
+#login-view{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);backdrop-filter:blur(12px);z-index:300;align-items:center;justify-content:center}
+#login-view.open{display:flex}
+.login-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius2);padding:2.5rem;width:360px;animation:slideUp .3s ease}
+.login-box h2{font-size:1.4rem;font-weight:800;margin-bottom:.4rem}
+.login-box p{color:var(--text2);font-size:.9rem;margin-bottom:1.5rem}
+.login-submit{background:var(--pink);color:#fff;border:none;padding:12px;border-radius:50px;cursor:pointer;font-weight:600;font-size:.95rem;font-family:'DM Sans',sans-serif;width:100%;transition:.15s;margin-top:.25rem}
+.login-submit:hover{background:#e91e8c}
+.login-error{color:#ef5350;font-size:13px;margin-top:.5rem;display:none}
+.login-cancel{background:none;border:none;color:var(--text3);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:.75rem;width:100%;padding:6px}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--bg2);border:1px solid var(--gold);color:var(--gold);padding:12px 20px;border-radius:50px;font-size:14px;font-weight:500;z-index:500;opacity:0;transform:translateY(10px);transition:.3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+footer{text-align:center;padding:2rem;color:var(--text3);font-size:12px;border-top:1px solid var(--border)}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+@media(max-width:600px){
+  nav{padding:0 1rem}
+  .hero{padding:3rem 1rem 2rem}
+  .catalog{padding:0 1rem 3rem;gap:1rem}
+  #admin-view{padding:1rem}
+  .form-grid{grid-template-columns:1fr}
+  .edit-modal{padding:1.5rem}
+  .contact-btns{grid-template-columns:1fr}
+  .login-box{width:calc(100vw - 2rem);padding:1.75rem}
+  .modal-carousel{height:240px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">i<span>Store</span> MX</div>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="scrollTo({top:document.querySelector('.catalog').offsetTop-80,behavior:'smooth'})">Catálogo</button>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Cambiar tema">🌙</button>
+    <button class="nav-btn admin-btn" onclick="openLogin()">Admin ⚙</button>
+  </div>
+</nav>
+
+<!-- STORE -->
+<div id="store-view">
+  <div class="hero">
+    <h1>iPhones <span>originales</span><br>al mejor precio</h1>
+    <p>Equipos nuevos y seminuevos con garantía. Envíos a toda la república.</p>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div class="catalog" id="catalog"></div>
+  <footer>Todos los precios en MXN · Los equipos se pueden apartar con seña · Sujeto a disponibilidad</footer>
+</div>
+
+<!-- ADMIN -->
+<div id="admin-view">
+  <div class="admin-header">
+    <div>
+      <h2>Panel de administración</h2>
+      <p style="color:var(--text2);font-size:.9rem;margin-top:3px">Gestiona tu catálogo de productos</p>
+    </div>
+    <button class="back-btn" onclick="backToStore()">← Ver tienda</button>
+  </div>
+
+  <div class="form-card">
+    <h3>Agregar producto</h3>
+    <div class="form-grid">
+      <div class="form-group"><label>Modelo</label><input type="text" id="f-model" placeholder="ej. iPhone 15 Pro Max"></div>
+      <div class="form-group"><label>Precio (MXN)</label><input type="number" id="f-price" placeholder="ej. 22000"></div>
+      <div class="form-group">
+        <label>Capacidad</label>
+        <select id="f-storage">
+          <option value="128GB">128 GB</option><option value="256GB">256 GB</option>
+          <option value="512GB">512 GB</option><option value="1TB">1 TB</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Color</label><input type="text" id="f-color" placeholder="ej. Titanio Negro"></div>
+      <div class="form-group">
+        <label>Condición</label>
+        <select id="f-condition"><option value="Nuevo">Nuevo</option><option value="Seminuevo">Seminuevo</option></select>
+      </div>
+      <div class="form-group"><label>Cantidad disponible</label><input type="number" id="f-qty" min="1" value="1"></div>
+      <div class="form-group full">
+        <label>Fotos del producto</label>
+        <div class="media-tabs">
+          <button class="media-tab active" onclick="switchMediaTab('img',this)">📷 Subir fotos</button>
+          <button class="media-tab" onclick="switchMediaTab('emoji',this)">😊 Usar ícono</button>
+        </div>
+        <div id="tab-img">
+          <div class="multi-upload-zone">
+            <input type="file" id="f-imgs" accept="image/*" multiple onchange="handleMultiUpload(event,'add')">
+            <div class="upload-placeholder">
+              <div class="upload-icon">🖼</div>
+              <div class="upload-text">Toca para elegir fotos (puedes seleccionar varias)</div>
+              <div class="upload-sub">JPG, PNG, HEIC · Máx. 5MB por foto · Hasta 8 fotos</div>
+            </div>
+          </div>
+          <div class="img-previews" id="img-previews"></div>
+          <div class="img-count-label" id="img-count-label"></div>
+        </div>
+        <div id="tab-emoji" style="display:none">
+          <div class="emoji-grid">
+            <div class="emoji-opt selected" data-val="📱" onclick="selectEmoji(this)">📱</div>
+            <div class="emoji-opt" data-val="📲" onclick="selectEmoji(this)">📲</div>
+            <div class="emoji-opt" data-val="🖤" onclick="selectEmoji(this)">🖤</div>
+            <div class="emoji-opt" data-val="🤍" onclick="selectEmoji(this)">🤍</div>
+            <div class="emoji-opt" data-val="🟡" onclick="selectEmoji(this)">🟡</div>
+            <div class="emoji-opt" data-val="🔵" onclick="selectEmoji(this)">🔵</div>
+            <div class="emoji-opt" data-val="⭐" onclick="selectEmoji(this)">⭐</div>
+            <div class="emoji-opt" data-val="💎" onclick="selectEmoji(this)">💎</div>
+            <div class="emoji-opt" data-val="🥇" onclick="selectEmoji(this)">🥇</div>
+            <div class="emoji-opt" data-val="✨" onclick="selectEmoji(this)">✨</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="add-btn" onclick="addProduct()">+ Agregar al catálogo</button>
+  </div>
+
+  <div class="form-card">
+    <h3>Configuración de contacto</h3>
+    <div class="form-grid">
+      <div class="form-group"><label>Número de WhatsApp (con código de país)</label><input type="text" id="conf-wa" placeholder="ej. 525512345678"></div>
+      <div class="form-group"><label>Usuario de Instagram (sin @)</label><input type="text" id="conf-ig" placeholder="ej. istore.mx"></div>
+    </div>
+    <button class="add-btn" style="background:var(--pink);background-image:none" onclick="saveConfig()">Guardar configuración</button>
+  </div>
+
+  <div class="form-card">
+    <h3>Productos en catálogo</h3>
+    <div class="product-list" id="admin-product-list"></div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-carousel" id="modal-carousel">
+      <div class="modal-carousel-track" id="modal-track"></div>
+      <button class="modal-nav prev" id="modal-prev" onclick="modalSlide(-1)">‹</button>
+      <button class="modal-nav next" id="modal-next" onclick="modalSlide(1)">›</button>
+      <div class="modal-dots" id="modal-dots"></div>
+      <div class="modal-counter" id="modal-counter"></div>
+    </div>
+    <div class="modal-body">
+      <h3 id="modal-name"></h3>
+      <div class="modal-sub" id="modal-sub"></div>
+      <div class="modal-price" id="modal-price"></div>
+      <div class="modal-tags" id="modal-tags"></div>
+      <p class="contact-title">¿Cómo quieres contactar al vendedor?</p>
+      <div class="contact-btns">
+        <button class="wa-btn" id="wa-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          WhatsApp
+        </button>
+        <button class="ig-btn" id="ig-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="edit-overlay" id="edit-overlay">
+  <div class="edit-modal">
+    <button class="edit-close" onclick="closeEdit()">×</button>
+    <h3>✏️ Editar producto</h3>
+    <input type="hidden" id="edit-id">
+    <div class="form-grid">
+      <div class="form-group"><label>Modelo</label><input type="text" id="edit-model" placeholder="ej. iPhone 15 Pro Max"></div>
+      <div class="form-group"><label>Precio (MXN)</label><input type="number" id="edit-price"></div>
+      <div class="form-group">
+        <label>Capacidad</label>
+        <select id="edit-storage">
+          <option value="128GB">128 GB</option><option value="256GB">256 GB</option>
+          <option value="512GB">512 GB</option><option value="1TB">1 TB</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Color</label><input type="text" id="edit-color"></div>
+      <div class="form-group">
+        <label>Condición</label>
+        <select id="edit-condition"><option value="Nuevo">Nuevo</option><option value="Seminuevo">Seminuevo</option></select>
+      </div>
+      <div class="form-group"><label>Cantidad disponible</label><input type="number" id="edit-qty" min="1"></div>
+      <div class="form-group full">
+        <label>Fotos actuales</label>
+        <div class="existing-photos" id="edit-existing-photos"></div>
+        <label style="margin-top:.5rem">Agregar más fotos</label>
+        <div class="multi-upload-zone" style="margin-top:.4rem">
+          <input type="file" id="edit-new-imgs" accept="image/*" multiple onchange="handleMultiUpload(event,'edit')">
+          <div class="upload-placeholder">
+            <div class="upload-icon" style="font-size:1.4rem">📷</div>
+            <div class="upload-text">Toca para agregar fotos adicionales</div>
+          </div>
+        </div>
+        <div class="img-previews" id="edit-img-previews"></div>
+      </div>
+    </div>
+    <button class="save-btn" onclick="saveEdit()">Guardar cambios</button>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-view">
+  <div class="login-box">
+    <h2>Acceso admin</h2>
+    <p>Ingresa la contraseña para gestionar el catálogo</p>
+    <input type="password" id="login-pass" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-submit" onclick="doLogin()">Entrar</button>
+    <p class="login-error" id="login-error">Contraseña incorrecta</p>
+    <button class="login-cancel" onclick="closeLogin()">Cancelar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_PASS  = 'iphone2024';
+const STORAGE_KEY = 'istore_products';
+const CONFIG_KEY  = 'istore_config';
+
+let products      = [];
+let config        = {wa:'525500000000', ig:'istore.mx'};
+let selectedEmoji = '📱';
+let pendingImages = [];
+let editPendingImages = [];
+let editExistingImages = [];
+let useImageTab   = true;
+let activeFilter  = 'all';
+let modalIndex    = 0;
+let modalImages   = [];
+let editingId     = null;
+
+/* ── THEME ── */
+function toggleTheme(){
+  const html = document.documentElement;
+  const isDark = html.dataset.theme === 'dark';
+  html.dataset.theme = isDark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('istore_theme', html.dataset.theme);
+}
+(function initTheme(){
+  const saved = localStorage.getItem('istore_theme') || 'dark';
+  document.documentElement.dataset.theme = saved;
+  document.getElementById('theme-btn').textContent = saved === 'dark' ? '🌙' : '☀️';
+})();
+
+/* ── DATA ── */
+function loadData(){
+  try {
+    const p = localStorage.getItem(STORAGE_KEY); if(p) products = JSON.parse(p);
+    const c = localStorage.getItem(CONFIG_KEY);   if(c) config   = JSON.parse(c);
+  } catch(e){ products = []; }
+}
+function saveProducts(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(products)); }
+function saveConfigData(){ localStorage.setItem(CONFIG_KEY, JSON.stringify(config)); }
+
+/* ── UPLOAD ── */
+function handleMultiUpload(e, ctx){
+  const pool    = ctx === 'edit' ? editPendingImages : pendingImages;
+  const max     = 8;
+  const cur     = ctx === 'edit' ? editExistingImages.length + editPendingImages.length : pendingImages.length;
+  const slots   = max - cur;
+  const files   = Array.from(e.target.files).slice(0, slots);
+  if(!files.length){ showToast('Ya tienes el máximo de 8 fotos'); return; }
+  let done = 0;
+  files.forEach(file => {
+    if(file.size > 5*1024*1024){ done++; if(done===files.length) renderUploadPreviews(ctx); return; }
+    const r = new FileReader();
+    r.onload = ev => { pool.push(ev.target.result); done++; if(done===files.length) renderUploadPreviews(ctx); };
+    r.readAsDataURL(file);
+  });
+  e.target.value = '';
+}
+
+function renderUploadPreviews(ctx){
+  if(ctx === 'edit'){
+    // Existing photos
+    const ec = document.getElementById('edit-existing-photos');
+    ec.innerHTML = editExistingImages.map((src,i) =>
+      `<div class="existing-photo-item"><img src="${src}"><button class="rm" onclick="removeExistingPhoto(${i})">×</button></div>`
+    ).join('');
+    // New pending
+    const nc = document.getElementById('edit-img-previews');
+    nc.innerHTML = editPendingImages.map((src,i) =>
+      `<div class="img-preview-item"><img src="${src}"><button class="rm" onclick="removeEditPending(${i})">×</button></div>`
+    ).join('');
+    if(editExistingImages.length + editPendingImages.length < 8){
+      nc.innerHTML += `<div class="img-preview-item add-more"><span style="pointer-events:none">+</span><input type="file" accept="image/*" multiple onchange="handleMultiUpload(event,'edit')"></div>`;
+    }
+  } else {
+    const cont  = document.getElementById('img-previews');
+    const label = document.getElementById('img-count-label');
+    cont.innerHTML = pendingImages.map((src,i) =>
+      `<div class="img-preview-item"><img src="${src}"><button class="rm" onclick="removePreview(${i})">×</button></div>`
+    ).join('');
+    if(pendingImages.length < 8){
+      cont.innerHTML += `<div class="img-preview-item add-more"><span style="pointer-events:none">+</span><input type="file" accept="image/*" multiple onchange="handleMultiUpload(event,'add')"></div>`;
+    }
+    label.textContent = pendingImages.length > 0 ? `${pendingImages.length} foto${pendingImages.length>1?'s':''} seleccionada${pendingImages.length>1?'s':''}` : '';
+  }
+}
+
+function removePreview(i){ pendingImages.splice(i,1); renderUploadPreviews('add'); }
+function removeExistingPhoto(i){ editExistingImages.splice(i,1); renderUploadPreviews('edit'); }
+function removeEditPending(i){ editPendingImages.splice(i,1); renderUploadPreviews('edit'); }
+
+function switchMediaTab(tab, btn){
+  document.querySelectorAll('.media-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  useImageTab = tab === 'img';
+  document.getElementById('tab-img').style.display   = tab==='img'   ? 'block' : 'none';
+  document.getElementById('tab-emoji').style.display = tab==='emoji' ? 'block' : 'none';
+}
+function selectEmoji(el){
+  document.querySelectorAll('.emoji-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedEmoji = el.dataset.val;
+}
+
+/* ── CAROUSEL HELPERS ── */
+function makeCardCarousel(p){
+  const images = p.images && p.images.length ? p.images : null;
+  if(!images){
+    return `<div class="card-carousel">
+      <div class="card-carousel-track"><div class="card-carousel-slide"><div class="shine"></div><span style="filter:drop-shadow(0 8px 20px rgba(0,0,0,.5))">${p.emoji||'📱'}</span></div></div>
+      <span class="condition-badge ${p.condition==='Nuevo'?'nuevo':'semi'}">${p.condition}</span>
+    </div>`;
+  }
+  const slides = images.map(src =>
+    `<div class="card-carousel-slide"><div class="shine"></div><img src="${src}" alt="${p.model}" loading="lazy"></div>`
+  ).join('');
+  const dots  = images.length>1 ? images.map((_,i)=>`<button class="card-dot${i===0?' active':''}" onclick="event.stopPropagation();cardGoTo(this,${i})"></button>`).join('') : '';
+  const navs  = images.length>1 ? `<button class="card-nav prev" onclick="event.stopPropagation();cardSlide(this,-1)">‹</button><button class="card-nav next" onclick="event.stopPropagation();cardSlide(this,1)">›</button>` : '';
+  const count = images.length>1 ? `<span class="photo-count">1 / ${images.length}</span>` : '';
+  return `<div class="card-carousel" data-idx="0" data-total="${images.length}">
+    <div class="card-carousel-track">${slides}</div>
+    ${navs}${dots?`<div class="card-dots">${dots}</div>`:''}${count}
+    <span class="condition-badge ${p.condition==='Nuevo'?'nuevo':'semi'}">${p.condition}</span>
+  </div>`;
+}
+
+function cardSlide(btn, dir){
+  const c = btn.closest('.card-carousel'), track = c.querySelector('.card-carousel-track'), total = +c.dataset.total;
+  let idx = (+c.dataset.idx + dir + total) % total;
+  c.dataset.idx = idx;
+  track.style.transform = `translateX(-${idx*100}%)`;
+  c.querySelectorAll('.card-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+  const ct = c.querySelector('.photo-count'); if(ct) ct.textContent = `${idx+1} / ${total}`;
+}
+function cardGoTo(dotBtn, i){
+  const c = dotBtn.closest('.card-carousel'), track = c.querySelector('.card-carousel-track'), total = +c.dataset.total;
+  c.dataset.idx = i; track.style.transform = `translateX(-${i*100}%)`;
+  c.querySelectorAll('.card-dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+  const ct = c.querySelector('.photo-count'); if(ct) ct.textContent = `${i+1} / ${total}`;
+}
+function enableCardSwipe(el){
+  el.addEventListener('touchstart', e=>{ el._sx = e.touches[0].clientX; },{passive:true});
+  el.addEventListener('touchend', e=>{
+    const dx = e.changedTouches[0].clientX - el._sx;
+    if(Math.abs(dx)>40){ const b = el.querySelector(dx<0?'.card-nav.next':'.card-nav.prev'); if(b) b.click(); }
+  },{passive:true});
+}
+
+/* ── FILTERS ── */
+function getSeries(m){
+  if(!m) return 'Otro'; m = m.toLowerCase();
+  if(m.includes('15 pro max')) return 'iPhone 15 Pro Max';
+  if(m.includes('15 pro'))     return 'iPhone 15 Pro';
+  if(m.includes('15 plus'))    return 'iPhone 15 Plus';
+  if(m.includes('15'))         return 'iPhone 15';
+  if(m.includes('14 pro max')) return 'iPhone 14 Pro Max';
+  if(m.includes('14 pro'))     return 'iPhone 14 Pro';
+  if(m.includes('14 plus'))    return 'iPhone 14 Plus';
+  if(m.includes('14'))         return 'iPhone 14';
+  if(m.includes('13 pro max')) return 'iPhone 13 Pro Max';
+  if(m.includes('13 pro'))     return 'iPhone 13 Pro';
+  if(m.includes('13'))         return 'iPhone 13';
+  if(m.includes('12'))         return 'iPhone 12';
+  if(m.includes('11'))         return 'iPhone 11';
+  if(m.includes('se'))         return 'iPhone SE';
+  return 'Otro';
+}
+function renderFilters(){
+  const series = [...new Set(products.map(p=>getSeries(p.model)))];
+  const cont = document.getElementById('filters');
+  cont.innerHTML = `<button class="filter-btn${activeFilter==='all'?' active':''}" onclick="filterProducts('all',this)">Todos</button>`;
+  series.forEach(s=>{ const b=document.createElement('button'); b.className='filter-btn'+(activeFilter===s?' active':''); b.textContent=s; b.onclick=function(){filterProducts(s,this);}; cont.appendChild(b); });
+}
+function filterProducts(val, btn){
+  activeFilter = val;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderCatalog();
+}
+
+/* ── CATALOG ── */
+function renderCatalog(){
+  const cat = document.getElementById('catalog');
+  const filtered = activeFilter==='all' ? products : products.filter(p=>getSeries(p.model)===activeFilter);
+  if(!filtered.length){ cat.innerHTML='<div class="empty"><div style="font-size:3rem">📦</div><p>No hay productos en este momento</p></div>'; return; }
+  cat.innerHTML = filtered.map((p,i)=>{
+    const ri = products.indexOf(p);
+    return `<div class="card" onclick="openModal(${ri})" style="animation:fadeIn .4s ease both;animation-delay:${i*.06}s">
+      ${makeCardCarousel(p)}
+      <div class="card-body">
+        <div class="card-model">${p.model}</div>
+        <div class="card-details">
+          <span class="tag">💾 ${p.storage}</span>
+          <span class="tag">🎨 ${p.color}</span>
+          ${p.qty>1?`<span class="tag" style="color:#ffc107;border-color:rgba(255,193,7,.25)">✦ ${p.qty} disp.</span>`:''}
+        </div>
+        <div class="card-footer">
+          <div class="price">$${Number(p.price).toLocaleString('es-MX')}</div>
+          <button class="ask-btn" onclick="event.stopPropagation();openModal(${ri})">Me interesa</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  cat.querySelectorAll('.card-carousel[data-total]').forEach(enableCardSwipe);
+}
+
+/* ── MODAL ── */
+function openModal(idx){
+  const p = products[idx];
+  modalImages = (p.images&&p.images.length) ? p.images : [p.emoji||'📱'];
+  const isEmoji = !(p.images&&p.images.length);
+  modalIndex = 0;
+  const track = document.getElementById('modal-track');
+  track.innerHTML = modalImages.map(src=>
+    `<div class="modal-carousel-slide">${isEmoji?`<span style="filter:drop-shadow(0 8px 24px rgba(0,0,0,.6))">${src}</span>`:`<img src="${src}" alt="${p.model}" loading="lazy">`}</div>`
+  ).join('');
+  track.style.transition='none'; track.style.transform='translateX(0)';
+  const show = modalImages.length>1;
+  document.getElementById('modal-dots').innerHTML = show ? modalImages.map((_,i)=>`<button class="modal-dot${i===0?' active':''}" onclick="modalGoTo(${i})"></button>`).join('') : '';
+  ['modal-prev','modal-next'].forEach(id=>{ document.getElementById(id).style.display=show?'flex':'none'; });
+  const ctr=document.getElementById('modal-counter'); ctr.style.display=show?'block':'none'; if(show) ctr.textContent=`1 / ${modalImages.length}`;
+  document.getElementById('modal-name').textContent  = p.model;
+  document.getElementById('modal-sub').textContent   = `${p.condition} · ${p.storage} · ${p.color}`;
+  document.getElementById('modal-price').textContent = `$${Number(p.price).toLocaleString('es-MX')} MXN`;
+  document.getElementById('modal-tags').innerHTML    = `<span class="tag">💾 ${p.storage}</span><span class="tag">🎨 ${p.color}</span><span class="condition-badge ${p.condition==='Nuevo'?'nuevo':'semi'}" style="position:static">${p.condition}</span>`;
+  const msg = encodeURIComponent(`Hola! 👋 Me interesa el *${p.model}* (${p.storage}, ${p.color}, ${p.condition}) que vi en tu catálogo. ¿Podrías darme más información y precio final? 🙏`);
+  document.getElementById('wa-btn').onclick = ()=>window.open(`https://wa.me/${config.wa}?text=${msg}`,'_blank');
+  document.getElementById('ig-btn').onclick = ()=>window.open(`https://ig.me/m/${config.ig}`,'_blank');
+  document.getElementById('modal').classList.add('open');
+  setTimeout(()=>{ track.style.transition=''; },50);
+  const mc = document.getElementById('modal-carousel');
+  mc.ontouchstart = e=>{ mc._sx=e.touches[0].clientX; };
+  mc.ontouchend   = e=>{ const dx=e.changedTouches[0].clientX-mc._sx; if(Math.abs(dx)>40) modalSlide(dx<0?1:-1); };
+}
+function modalSlide(dir){
+  modalIndex=(modalIndex+dir+modalImages.length)%modalImages.length;
+  document.getElementById('modal-track').style.transform=`translateX(-${modalIndex*100}%)`;
+  document.getElementById('modal-counter').textContent=`${modalIndex+1} / ${modalImages.length}`;
+  document.querySelectorAll('.modal-dot').forEach((d,i)=>d.classList.toggle('active',i===modalIndex));
+}
+function modalGoTo(i){
+  modalIndex=i;
+  document.getElementById('modal-track').style.transform=`translateX(-${i*100}%)`;
+  document.getElementById('modal-counter').textContent=`${i+1} / ${modalImages.length}`;
+  document.querySelectorAll('.modal-dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+}
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
+
+/* ── ADD PRODUCT ── */
+function addProduct(){
+  const model=document.getElementById('f-model').value.trim(), price=document.getElementById('f-price').value.trim();
+  const storage=document.getElementById('f-storage').value, color=document.getElementById('f-color').value.trim();
+  const condition=document.getElementById('f-condition').value, qty=parseInt(document.getElementById('f-qty').value)||1;
+  if(!model||!price||!color){ showToast('⚠ Completa modelo, precio y color'); return; }
+  const np={model,price,storage,color,condition,qty,id:Date.now()};
+  if(useImageTab&&pendingImages.length) np.images=[...pendingImages]; else np.emoji=selectedEmoji;
+  products.push(np); saveProducts();
+  document.getElementById('f-model').value=''; document.getElementById('f-price').value='';
+  document.getElementById('f-color').value=''; document.getElementById('f-qty').value='1';
+  pendingImages=[]; renderUploadPreviews('add');
+  renderAdminList(); showToast('✓ Producto agregado al catálogo');
+}
+
+/* ── EDIT ── */
+function openEdit(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  editingId = id;
+  editExistingImages = p.images ? [...p.images] : [];
+  editPendingImages  = [];
+  document.getElementById('edit-id').value       = id;
+  document.getElementById('edit-model').value    = p.model;
+  document.getElementById('edit-price').value    = p.price;
+  document.getElementById('edit-storage').value  = p.storage;
+  document.getElementById('edit-color').value    = p.color;
+  document.getElementById('edit-condition').value= p.condition;
+  document.getElementById('edit-qty').value      = p.qty;
+  renderUploadPreviews('edit');
+  document.getElementById('edit-new-imgs').value='';
+  document.getElementById('edit-overlay').classList.add('open');
+}
+function closeEdit(){ document.getElementById('edit-overlay').classList.remove('open'); }
+document.getElementById('edit-overlay').addEventListener('click',function(e){ if(e.target===this) closeEdit(); });
+
+function saveEdit(){
+  const id=editingId, idx=products.findIndex(x=>x.id===id);
+  if(idx===-1) return;
+  const p=products[idx];
+  p.model     = document.getElementById('edit-model').value.trim()    || p.model;
+  p.price     = document.getElementById('edit-price').value.trim()    || p.price;
+  p.storage   = document.getElementById('edit-storage').value;
+  p.color     = document.getElementById('edit-color').value.trim()    || p.color;
+  p.condition = document.getElementById('edit-condition').value;
+  p.qty       = parseInt(document.getElementById('edit-qty').value)   || p.qty;
+  const allImages = [...editExistingImages, ...editPendingImages];
+  if(allImages.length){ p.images=allImages; delete p.emoji; }
+  else if(!p.emoji){ p.emoji='📱'; }
+  saveProducts();
+  renderAdminList();
+  closeEdit();
+  showToast('✓ Producto actualizado');
+}
+
+/* ── DELETE ── */
+function deleteProduct(id){
+  if(!confirm('¿Eliminar este producto del catálogo?')) return;
+  products=products.filter(p=>p.id!==id); saveProducts(); renderAdminList(); showToast('Producto eliminado');
+}
+
+/* ── ADMIN LIST ── */
+function renderAdminList(){
+  const cont = document.getElementById('admin-product-list');
+  if(!products.length){ cont.innerHTML='<p style="color:var(--text3);font-size:.9rem;padding:.5rem 0">No hay productos todavía. ¡Agrega el primero!</p>'; return; }
+  cont.innerHTML = products.map(p=>{
+    const thumb = (p.images&&p.images.length)
+      ? `<img src="${p.images[0]}" alt="${p.model}">${p.images.length>1?`<span class="multi-badge">${p.images.length}</span>`:''}`
+      : (p.emoji||'📱');
+    return `<div class="product-row">
+      <div class="product-row-thumb">${thumb}</div>
+      <div class="product-row-info">
+        <div class="product-row-name">${p.model}</div>
+        <div class="product-row-meta">${p.storage} · ${p.color} · ${p.condition} · ${p.qty} disp.${p.images&&p.images.length>1?' · '+p.images.length+' fotos':''}</div>
+      </div>
+      <div class="product-row-price">$${Number(p.price).toLocaleString('es-MX')}</div>
+      <div class="row-actions">
+        <button class="edit-btn" onclick="openEdit(${p.id})" title="Editar">✏️</button>
+        <button class="del-btn" onclick="deleteProduct(${p.id})" title="Eliminar">×</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── CONFIG ── */
+function saveConfig(){
+  config.wa=document.getElementById('conf-wa').value.trim();
+  config.ig=document.getElementById('conf-ig').value.trim();
+  saveConfigData(); showToast('✓ Configuración guardada');
+}
+
+/* ── LOGIN ── */
+function openLogin(){ document.getElementById('login-view').classList.add('open'); setTimeout(()=>document.getElementById('login-pass').focus(),100); }
+function closeLogin(){ document.getElementById('login-view').classList.remove('open'); document.getElementById('login-pass').value=''; document.getElementById('login-error').style.display='none'; }
+function doLogin(){
+  if(document.getElementById('login-pass').value===ADMIN_PASS){ closeLogin(); showAdmin(); }
+  else { document.getElementById('login-error').style.display='block'; document.getElementById('login-pass').value=''; document.getElementById('login-pass').focus(); }
+}
+function showAdmin(){
+  document.getElementById('store-view').style.display='none';
+  document.getElementById('admin-view').style.display='block';
+  document.getElementById('conf-wa').value=config.wa||'';
+  document.getElementById('conf-ig').value=config.ig||'';
+  renderAdminList();
+}
+function backToStore(){
+  document.getElementById('store-view').style.display='block';
+  document.getElementById('admin-view').style.display='none';
+  renderFilters(); renderCatalog();
+}
+
+/* ── TOAST ── */
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+
+/* ── INIT ── */
+loadData();
+if(!products.length){
+  products=[
+    {id:1,model:'iPhone 15 Pro Max',price:26999,storage:'256GB',color:'Titanio Negro',condition:'Nuevo',emoji:'📱',qty:2},
+    {id:2,model:'iPhone 15 Pro',price:23499,storage:'128GB',color:'Titanio Azul',condition:'Nuevo',emoji:'📲',qty:1},
+    {id:3,model:'iPhone 14',price:16500,storage:'128GB',color:'Morado',condition:'Seminuevo',emoji:'🟡',qty:3},
+    {id:4,model:'iPhone 13 Pro Max',price:18200,storage:'256GB',color:'Sierra Azul',condition:'Seminuevo',emoji:'📱',qty:1},
+  ];
+  saveProducts();
+}
+renderFilters(); renderCatalog();
+</script>
+</body>
+</html>
